@@ -1,14 +1,15 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Repositories;
 
+use App\Repositories\Interfaces\ProductRepositoryInterface;
 use App\Repositories\ProductRepository;
 use Tests\TestCase;
 
 class ProductRepositoryTest extends TestCase
 {
 
-    private ProductRepository $productRepository;
+    private ProductRepositoryInterface $productRepository;
 
     public function setUp(): void {
         parent::setUp();
