@@ -3,7 +3,7 @@
 namespace Tests\Unit\Repositories;
 
 use App\Repositories\Interfaces\ProductRepositoryInterface;
-use App\Repositories\ProductRepository;
+use App\Repositories\Eloquent\ProductRepository;
 use Tests\TestCase;
 
 class ProductRepositoryTest extends TestCase
