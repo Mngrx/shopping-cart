@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Repositories;
+namespace Tests\Unit\Repositories\Eloquent;
 
 use App\Repositories\Interfaces\ProductRepositoryInterface;
 use App\Repositories\Eloquent\ProductRepository;
