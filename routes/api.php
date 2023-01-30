@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ShoppingCartController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,9 +24,16 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::name('products.')->group(function() {
         Route::get('products', [ProductController::class, 'index'])->name('index');
         Route::get('products/{id}', [ProductController::class, 'show'])->name('show');
-        Route::post('products', [ProductController::class, 'store'])->name('store');
-        Route::put('products/{id}', [ProductController::class, 'update'])->name('update');
+        Route::post('products', [ProductController::class, 'store'])->name('store')->middleware('is_admin');
+        Route::put('products/{id}', [ProductController::class, 'update'])->name('update')->middleware('is_admin');
         Route::delete('products/{id}', [ProductController::class, 'destroy'])->name('destroy')->middleware('is_admin');
+    });
+
+    Route::name('shopping-cart.')->group(function() {
+        Route::post('shopping-cart', [ShoppingCartController::class, 'storeProduct'])->name('store');
+        Route::get('shopping-cart', [ShoppingCartController::class, 'getShoppingCart'])->name('get');
+        Route::delete('shopping-cart', [ShoppingCartController::class, 'clearShoppingCart'])->name('clear');
+        Route::delete('shopping-cart/{id}', [ShoppingCartController::class, 'removeProduct'])->name('remove');
     });
 
 });

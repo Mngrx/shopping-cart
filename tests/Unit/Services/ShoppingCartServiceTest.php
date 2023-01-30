@@ -139,8 +139,8 @@ class ShoppingCartServiceTest extends TestCase
             ->once()
             ->with($userId)
             ->andReturn([
-                ['id' => 2, 'name' => 'Some Product', 'price' => 7.77, 'quantity' => 3],
-                ['id' => 3, 'name' => 'Other Product', 'price' => 9.99, 'quantity' => 2]
+                ['id' => 2, 'name' => 'Some Product', 'price' => 10.0, 'quantity' => 3],
+                ['id' => 3, 'name' => 'Other Product', 'price' => 9.0, 'quantity' => 2]
             ]);
         
 
@@ -148,8 +148,11 @@ class ShoppingCartServiceTest extends TestCase
 
         $this->assertEquals(
             [
-                ['id' => 2, 'name' => 'Some Product', 'price' => 7.77, 'quantity' => 3],
-                ['id' => 3, 'name' => 'Other Product', 'price' => 9.99, 'quantity' => 2]
+                'products' => [
+                    ['id' => 2, 'name' => 'Some Product', 'price' => 10.0, 'quantity' => 3],
+                    ['id' => 3, 'name' => 'Other Product', 'price' => 9.0, 'quantity' => 2]
+                ],
+                'totalAmount' => 48.0
             ], 
             $shoppingCart
         );

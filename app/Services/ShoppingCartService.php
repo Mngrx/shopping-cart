@@ -18,7 +18,7 @@ class ShoppingCartService implements ShoppingCartServiceInterface {
         $this->productRepository = $productRepository;
     }
 
-    private function addProductToShoppingCart(array $shoppingCart, array $product, int $quantity) {
+    private function addProductToShoppingCart(array $shoppingCart, array $product, int $quantity): array {
         return array_merge($shoppingCart, [array_merge($product, ['quantity' => $quantity])]);
     }
 
@@ -38,7 +38,7 @@ class ShoppingCartService implements ShoppingCartServiceInterface {
     
     }
 
-    private function removeProductFromShoppingCart(array $shoppingCart, int $productId) {
+    private function removeProductFromShoppingCart(array $shoppingCart, int $productId): array {
         return array_filter($shoppingCart, function ($product) use ($productId) { return $product['id'] != $productId; });
     }
 
@@ -56,10 +56,31 @@ class ShoppingCartService implements ShoppingCartServiceInterface {
     
     }
 
+
+    private function calculateTotalAmount($shoppingCart): float {
+
+        $totalAmount = 0.0;
+
+        foreach ($shoppingCart as $item) {
+            $totalAmount += ($item['quantity'] * $item['price']);
+        }
+
+        return $totalAmount;
+
+    }
+
     public function getProducts(): array {
         $userId = Auth::id();
-        return $this->shoppingCartRepository->getByKey($userId);
+
+        $shoppingCart = $this->shoppingCartRepository->getByKey($userId);
+
+        return [
+            'products' => $shoppingCart,
+            'totalAmount' => $this->calculateTotalAmount($shoppingCart)
+        ];
     }
+
+
     public function removeAllProducts(): bool {
         $userId = Auth::id();
         $this->shoppingCartRepository->delete($userId);

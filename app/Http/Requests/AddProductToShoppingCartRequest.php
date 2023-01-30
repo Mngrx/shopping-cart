@@ -3,11 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
-class UpdateProductRequest extends FormRequest
+class AddProductToShoppingCartRequest extends FormRequest
 {
-  
     /**
      * Get the validation rules that apply to the request.
      *
@@ -16,9 +14,8 @@ class UpdateProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['string'],
-            'price' => ['decimal:2'],
-            'description' => ['string'],
+            'productId' => ['required', 'exists:App\Models\Product,id'],
+            'quantity' => ['required', 'integer', 'min: 1']
         ];
     }
 }
