@@ -2,8 +2,8 @@
 
 namespace App\Services\Interfaces;
 
-interface ProcessShoppingCartInterface {
+interface ProcessShoppingCartServiceInterface {
 
-    public function checkout(): float;
+    public function checkout(): array;
 
 }

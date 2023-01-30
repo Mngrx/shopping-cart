@@ -96,7 +96,6 @@ class ProductRepositoryTest extends TestCase
             'price' => 15.99,
             'description' => 'This product is deleted'
         ]);
-
         
         self::$productRepository->delete($productId);
         

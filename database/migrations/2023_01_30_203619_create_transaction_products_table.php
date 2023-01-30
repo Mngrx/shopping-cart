@@ -21,7 +21,6 @@ return new class extends Migration
             $table->decimal('price', 8, 2, true);
             $table->unsignedInteger('quantity');
             $table->foreignIdFor(Transaction::class);
-            $table->foreignIdFor(Product::class);
             $table->timestamps();
         });
     }

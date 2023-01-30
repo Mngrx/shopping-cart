@@ -9,7 +9,7 @@ use App\Services\ShoppingCartService;
 use Illuminate\Support\Facades\Auth;
 use Mockery;
 use Mockery\MockInterface;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class ShoppingCartServiceTest extends TestCase
 {

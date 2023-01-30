@@ -2,12 +2,12 @@
 
 namespace App\Repositories\Eloquent;
 
-use App\Models\TransactionProduct;
-use App\Repositories\Interfaces\TransactionProductRepositoryInterface;
+use App\Models\Transaction;
+use App\Repositories\Interfaces\TransactionRepositoryInterface;
 
-class TransactionProductRepository extends BaseRepository implements TransactionProductRepositoryInterface
+class TransactionRepository extends BaseRepository implements TransactionRepositoryInterface
 {
     public function __construct() {
-        $this->model = app(TransactionProduct::class);
+        $this->model = app(Transaction::class);
     }
 }
