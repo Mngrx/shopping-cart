@@ -9,17 +9,18 @@ use Tests\TestCase;
 class ProductRepositoryTest extends TestCase
 {
 
-    private ProductRepositoryInterface $productRepository;
+    private static ProductRepositoryInterface $productRepository;
 
-    public function setUp(): void {
-        parent::setUp();
-        $this->productRepository = new ProductRepository();
+    public static function setUpBeforeClass(): void {
+        parent::setUpBeforeClass();
+        self::$productRepository = new ProductRepository();
     }
-    
+
+
     public function test_should_insert_a_new_product_in_table_and_return_id(): void
     {
         
-        $productId = $this->productRepository->insert([
+        $productId = self::$productRepository->insert([
             'name' => 'Product Name',
             'price' => 99.99,
             'description' => 'Something to describe the product'
@@ -41,14 +42,14 @@ class ProductRepositoryTest extends TestCase
     public function test_should_get_product_as_array_by_id(): void
     {
         
-        $productId = $this->productRepository->insert([
+        $productId = self::$productRepository->insert([
             'name' => 'Other',
             'price' => 11.99,
             'description' => 'Other product'
         ]);
 
 
-        $productData = $this->productRepository->get($productId);
+        $productData = self::$productRepository->get($productId);
         
         $this->assertEquals(
             [
@@ -69,20 +70,20 @@ class ProductRepositoryTest extends TestCase
 
     public function test_should_get_all_products(): void
     {
-        $this->productRepository->insert([
+        self::$productRepository->insert([
             'name' => 'Product1',
             'price' => 11.99,
             'description' => 'Other product 1'
         ]);
 
-        $this->productRepository->insert([
+        self::$productRepository->insert([
             'name' => 'Product2',
             'price' => 18.33,
             'description' => 'Other product 2'
         ]);
 
 
-        $products = $this->productRepository->getAll();
+        $products = self::$productRepository->getAll();
         
         $this->assertCount(2, $products);
 
@@ -90,14 +91,14 @@ class ProductRepositoryTest extends TestCase
 
     public function test_should_delete_a_product_by_id(): void
     {
-        $productId = $this->productRepository->insert([
+        $productId = self::$productRepository->insert([
             'name' => 'Product deleted',
             'price' => 15.99,
             'description' => 'This product is deleted'
         ]);
 
         
-        $this->productRepository->delete($productId);
+        self::$productRepository->delete($productId);
         
         $this->assertDatabaseMissing(
             'products',
@@ -111,13 +112,13 @@ class ProductRepositoryTest extends TestCase
 
     public function test_should_updated_a_product(): void
     {
-        $productId = $this->productRepository->insert([
+        $productId = self::$productRepository->insert([
             'name' => 'Outdated product',
             'price' => 55.44,
             'description' => 'This product is outdated'
         ]);
 
-        $this->productRepository->update(
+        self::$productRepository->update(
             $productId,
             [
                 'name' => 'New name',
