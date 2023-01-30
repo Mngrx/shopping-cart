@@ -100,12 +100,13 @@ class ProductRepositoryTest extends TestCase
         
         self::$productRepository->delete($productId);
         
-        $this->assertDatabaseMissing(
+        $this->assertDatabaseHas(
             'products',
             [
                 'name' => 'Product deleted',
                 'price' => 15.99,
-                'description' => 'This product is deleted'
+                'description' => 'This product is deleted',
+                'deleted_at' => date('Y-m-d H:i:s')
             ]
         );
     }

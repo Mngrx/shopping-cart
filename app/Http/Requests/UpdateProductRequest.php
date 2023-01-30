@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateProductRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class UpdateProductRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return Auth::user()->admin;
     }
 
     /**
@@ -24,7 +25,9 @@ class UpdateProductRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => ['string'],
+            'price' => ['decimal:2'],
+            'description' => ['string'],
         ];
     }
 }
