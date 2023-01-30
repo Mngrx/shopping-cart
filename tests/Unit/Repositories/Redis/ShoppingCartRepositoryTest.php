@@ -5,6 +5,7 @@ namespace Tests\Unit\Repositories\Redis;
 use App\Repositories\Interfaces\ShoppingCartRepositoryInterface;
 use App\Repositories\Redis\ShoppingCartRepository;
 use Illuminate\Support\Facades\Redis;
+use Tests\Mocks\RedisMock;
 use Tests\TestCase;
 
 class ShoppingCartRepositoryTest extends TestCase
@@ -15,15 +16,6 @@ class ShoppingCartRepositoryTest extends TestCase
     public static function setUpBeforeClass(): void {
         parent::setUpBeforeClass();
         self::$shoppingCartRepository = new ShoppingCartRepository();
-    }
-
-    public function setUp(): void {
-        
-        parent::setUp();
-
-        $factory = new \M6Web\Component\RedisMock\RedisMockFactory();
-        $myRedisMock = $factory->getAdapter(Redis::class);
-        Redis::swap($myRedisMock);
     }
 
     public function test_should_insert_an_key_and_data_in_shopping_cart()
@@ -38,23 +30,30 @@ class ShoppingCartRepositoryTest extends TestCase
             ]
         ];
 
+        Redis::shouldReceive('set')
+            ->once()
+            ->with('sc_99', $data);
+
         $insertedKey = self::$shoppingCartRepository->insertOrUpdate($key, $data);
 
         
         $this->assertEquals('sc_99', $insertedKey);
-        // TODO: verify if it is in Redis
+
     }
     
     public function test_should_remove_an_key_from_shopping_cart(): void
     {
-
+        
         $key = 88;
         
-        $removedKey = self::$shoppingCartRepository->delete($key);
+        Redis::shouldReceive('del')
+            ->once()
+            ->with('sc_88');
 
+        $removedKey = self::$shoppingCartRepository->delete($key);
         
         $this->assertEquals('sc_88', $removedKey);
-        // TODO: verify if it is not in Redis
+        
     }
     
     public function test_should_get_an_data_by_key_from_shopping_cart(): void
@@ -68,10 +67,25 @@ class ShoppingCartRepositoryTest extends TestCase
                 'name' => 'Good Product'
             ]
         ];
-        Redis::set('sc_77', $data);
-
-        self::$shoppingCartRepository->getByKey($key);
         
-        // TODO: assert if the function is returning the correct data
+        Redis::shouldReceive('get')
+            ->once()
+            ->with('sc_77')
+            ->andReturn($data);
+
+
+        $result = self::$shoppingCartRepository->getByKey($key);
+    
+        $this->assertEquals(
+            [
+                [
+                    'product_id' => 1,
+                    'price' => 19.99,
+                    'name' => 'Good Product'
+                ]
+            ],
+            $result
+        );
+
     }
 }
