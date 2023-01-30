@@ -32,12 +32,12 @@ class ShoppingCartRepositoryTest extends TestCase
 
         Redis::shouldReceive('set')
             ->once()
-            ->with('sc_99', $data);
+            ->with('sc:99', $data);
 
         $insertedKey = self::$shoppingCartRepository->insertOrUpdate($key, $data);
 
         
-        $this->assertEquals('sc_99', $insertedKey);
+        $this->assertEquals('sc:99', $insertedKey);
 
     }
     
@@ -48,11 +48,11 @@ class ShoppingCartRepositoryTest extends TestCase
         
         Redis::shouldReceive('del')
             ->once()
-            ->with('sc_88');
+            ->with('sc:88');
 
         $removedKey = self::$shoppingCartRepository->delete($key);
         
-        $this->assertEquals('sc_88', $removedKey);
+        $this->assertEquals('sc:88', $removedKey);
         
     }
     
@@ -70,7 +70,7 @@ class ShoppingCartRepositoryTest extends TestCase
         
         Redis::shouldReceive('get')
             ->once()
-            ->with('sc_77')
+            ->with('sc:77')
             ->andReturn($data);
 
 
@@ -86,6 +86,23 @@ class ShoppingCartRepositoryTest extends TestCase
             ],
             $result
         );
+
+    }
+    
+    public function test_should_return_empty_array_when_try_to_get_nonexistent_key_from_shopping_cart(): void
+    {
+
+        $key = 77;
+        
+        Redis::shouldReceive('get')
+            ->once()
+            ->with('sc:77')
+            ->andReturnNull();
+
+
+        $result = self::$shoppingCartRepository->getByKey($key);
+    
+        $this->assertEquals([], $result);
 
     }
 }

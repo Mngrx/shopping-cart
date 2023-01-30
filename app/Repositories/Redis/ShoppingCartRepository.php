@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Redis;
 class ShoppingCartRepository implements ShoppingCartRepositoryInterface {
 
     private function generateRedisKey(int $key) {
-        return 'sc_'.$key;
+        return 'sc:'.$key;
     }
 
     public function insertOrUpdate(int $key, array $data): string {
@@ -16,8 +16,13 @@ class ShoppingCartRepository implements ShoppingCartRepositoryInterface {
         return $this->generateRedisKey($key);
     }
     
-    public function getByKey(int $key): ?array {
-        return Redis::get($this->generateRedisKey($key));
+    public function getByKey(int $key): array {
+        $shoppingCartData = Redis::get($this->generateRedisKey($key));
+        if (!$shoppingCartData) {
+            return [];
+        }
+
+        return $shoppingCartData;
     }
     
     public function delete(int $key): string {        
