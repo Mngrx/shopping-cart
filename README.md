@@ -53,3 +53,5 @@ Those requests are related to authentication. There are two request to simulate 
 - Improve the way the system deal with avaibility of databases services (MySQL and Redis). Currently, it is just returning 500 error for the user.
 - Create adapters to manipulate response data. For example, to hide `timestamp` fields from responses.
 - Dockerization for production purposes.
+- Use some tool like [Larastan](https://github.com/nunomaduro/larastan) or [PHP metrics](https://www.phpmetrics.org/), running automatically to keep the code quality high.
+- Create a pipeline to integrate all quality gates: unit tests, integration tests, audit, and others.
