@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ProcessShoppingCartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShoppingCartController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,6 +18,9 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::get('/login/admin', [LoginController::class, 'loginAdmin']);
+Route::get('/login/regular', [LoginController::class, 'loginRegular']);
 
 Route::middleware('auth:sanctum')->group(function() {
     Route::get('/user', function (Request $request) {
@@ -34,6 +40,9 @@ Route::middleware('auth:sanctum')->group(function() {
         Route::get('shopping-cart', [ShoppingCartController::class, 'getShoppingCart'])->name('get');
         Route::delete('shopping-cart', [ShoppingCartController::class, 'clearShoppingCart'])->name('clear');
         Route::delete('shopping-cart/{id}', [ShoppingCartController::class, 'removeProduct'])->name('remove');
+
+        Route::get('shopping-cart/checkout', [ProcessShoppingCartController::class, 'processShoppingCart'])->name('process');
+
     });
 
 });

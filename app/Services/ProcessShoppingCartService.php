@@ -29,6 +29,14 @@ class ProcessShoppingCartService implements ProcessShoppingCartServiceInterface 
 
         $shoppingCart = $this->shoppingCartService->getProducts();
 
+        if (!$shoppingCart['products']) {
+            return [
+                'processed' => false,
+                'message' => 'The shopping cart is empty.',
+                'totalAmount' => 0
+            ];
+        }
+
         $transactionId = $this->transactionRepository->insert([
             'user_id' => Auth::id(),
             'total_amount' => $shoppingCart['totalAmount']
@@ -45,7 +53,7 @@ class ProcessShoppingCartService implements ProcessShoppingCartServiceInterface 
 
         return [
             'processed' => true,
-            'message' => 'The checkout was successfully processed',
+            'message' => 'The checkout was successfully processed.',
             'totalAmount' => $shoppingCart['totalAmount']
         ];
 

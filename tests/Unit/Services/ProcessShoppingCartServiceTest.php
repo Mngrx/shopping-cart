@@ -31,35 +31,9 @@ class ProcessShoppingCartServiceTest extends TestCase
             new TransactionProductRepository
         );
 
-        DB::table('products')
-            ->insert(
-                [
-                    [
-                        'name' => 'Soap',
-                        'description' => 'To take a shower.',
-                        'price' => 1.99,
-                        'created_at' => date('Y-m-d H:i:s'),
-                        'updated_at' => date('Y-m-d H:i:s')
-                    ],
-                    [
-                        'name' => 'Towel',
-                        'description' => 'Use the towel to dry.',
-                        'price' => 12.50,
-                        'created_at' => date('Y-m-d H:i:s'),
-                        'updated_at' => date('Y-m-d H:i:s')
-                    ],
-                    [
-                        'name' => 'Shampoo',
-                        'description' => 'For hair washing.',
-                        'price' => 8.99,
-                        'created_at' => date('Y-m-d H:i:s'),
-                        'updated_at' => date('Y-m-d H:i:s')
-                    ],
-                ]
-            );
-
     }
 
+  
     public function test_should_call_user_current_shopping_cart_and_process_it(): void
     {
         $this
@@ -83,7 +57,7 @@ class ProcessShoppingCartServiceTest extends TestCase
         $this->assertEquals(
             [
                 'processed' => true,
-                'message' => 'The checkout was successfully processed',
+                'message' => 'The checkout was successfully processed.',
                 'totalAmount' => 40.0
             ],
             $result
@@ -115,6 +89,32 @@ class ProcessShoppingCartServiceTest extends TestCase
                 'quantity' => 4,
                 'transaction_id' => 1,
             ]
+        );
+
+    }
+
+    public function test_should_return_a_different_message_when_shopping_cart_is_empty(): void
+    {
+        $this
+            ->mockShoppingCartService
+            ->shouldReceive('getProducts')
+            ->once()
+            ->andReturn(
+                [
+                    'products' => [],
+                    'totalAmount' => 0
+                ]
+            );
+
+        $result = $this->processShoppingCartService->checkout();
+
+        $this->assertEquals(
+            [
+                'processed' => false,
+                'message' => 'The shopping cart is empty.',
+                'totalAmount' => 0
+            ],
+            $result
         );
 
     }
