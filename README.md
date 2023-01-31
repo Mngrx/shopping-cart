@@ -36,6 +36,10 @@ Then, you need to generate the applcation key and run the migrations and seed th
 
 Finally, you can interact with the API. Access: [http://localhost:8880](http://localhost:8880).
 
+## Docs
+
+There is some diagrams in [docs folder](https://github.com/Mngrx/shopping-cart/tree/main/docs). 
+
 ## Testing with Postman
 
 With the application runnig, you can use Postman to load the collection located in `./postman/app_collection.json`.
