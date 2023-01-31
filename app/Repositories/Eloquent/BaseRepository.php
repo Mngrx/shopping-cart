@@ -17,7 +17,13 @@ abstract class BaseRepository {
 
     public function get(int $id): array {
 
-        return $this->model->find($id)->toArray();
+        $result = $this->model->find($id);
+
+        if (!$result) {
+            return [];
+        }
+
+        return $result->toArray();
 
     }
 

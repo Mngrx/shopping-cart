@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('name', 100);
             $table->text('description');
             $table->decimal('price', 8, 2, true);
-            $table->softDeletes();
             $table->timestamps();
         });
     }

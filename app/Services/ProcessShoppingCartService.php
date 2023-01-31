@@ -51,6 +51,8 @@ class ProcessShoppingCartService implements ProcessShoppingCartServiceInterface 
             ]);
         }
 
+        $this->shoppingCartService->removeAllProducts();
+
         return [
             'processed' => true,
             'message' => 'The checkout was successfully processed.',

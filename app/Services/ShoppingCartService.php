@@ -57,12 +57,12 @@ class ShoppingCartService implements ShoppingCartServiceInterface {
     }
 
 
-    private function calculateTotalAmount($shoppingCart): float {
+    private function calculateTotalAmount(array $shoppingCart): float {
 
         $totalAmount = 0.0;
 
         foreach ($shoppingCart as $item) {
-            $totalAmount += ($item['quantity'] * $item['price']);
+            $totalAmount += ($item["quantity"] * $item["price"]);
         }
 
         return $totalAmount;

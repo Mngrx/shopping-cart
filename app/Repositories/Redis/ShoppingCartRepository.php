@@ -12,7 +12,7 @@ class ShoppingCartRepository implements ShoppingCartRepositoryInterface {
     }
 
     public function insertOrUpdate(int $key, array $data): string {
-        Redis::set($this->generateRedisKey($key), $data);
+        Redis::set($this->generateRedisKey($key), json_encode($data));
         return $this->generateRedisKey($key);
     }
     
@@ -22,7 +22,7 @@ class ShoppingCartRepository implements ShoppingCartRepositoryInterface {
             return [];
         }
 
-        return $shoppingCartData;
+        return (array) json_decode($shoppingCartData, true);
     }
     
     public function delete(int $key): string {        
