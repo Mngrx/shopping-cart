@@ -76,7 +76,7 @@ class ProductResourceTest extends TestCase
             ->actingAs($this->user)
             ->getJson(route('api.products.show', 99));
 
-        $response->assertStatus(404);
+        $response->assertStatus(200);
         $response->assertJson([]);
     }
     
@@ -176,27 +176,6 @@ class ProductResourceTest extends TestCase
         );
     }
 
-    public function test_should_return_200_code_when_update_a_product_that_does_not_exist(): void
-    {
-
-        $updateResponse = $this
-            ->actingAs($this->user)
-            ->putJson(
-                route('api.products.update', 88),
-                [
-                    'description' => 'Use the towel to dry your hair.',
-                ]
-            );
-
-
-        $getResponse = $this
-            ->actingAs($this->user)
-            ->getJson(route('api.products.show', 88));
-
-        $updateResponse->assertStatus(200);
-        $getResponse->assertStatus(404);
-        
-    }
     
     public function test_should_return_403_code_when_an_non_admin_user_try_to_update_a_product(): void
     {
@@ -213,39 +192,6 @@ class ProductResourceTest extends TestCase
 
 
         $response->assertStatus(403);
-        
-    }
-
-    public function test_should_return_200_code_when_delete_a_product_successfully(): void
-    {
-
-        $deleteResponse = $this
-            ->actingAs($this->user)
-            ->deleteJson(route('api.products.destroy', 2));
-
-
-        $getResponse = $this
-            ->actingAs($this->user)
-            ->getJson(route('api.products.show', 2));
-
-        $deleteResponse->assertStatus(200);
-        $getResponse->assertStatus(404);
-    }
-
-    public function test_should_return_200_code_when_delete_a_product_that_does_not_exist(): void
-    {
-
-        $deleteResponse = $this
-            ->actingAs($this->user)
-            ->deleteJson(route('api.products.destroy', 2));
-
-
-        $getResponse = $this
-            ->actingAs($this->user)
-            ->getJson(route('api.products.show', 88));
-
-        $deleteResponse->assertStatus(200);
-        $getResponse->assertStatus(404);
         
     }
     

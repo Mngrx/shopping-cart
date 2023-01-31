@@ -155,10 +155,10 @@ class ShoppingCartTest extends TestCase
 
         Redis::shouldReceive('get')
             ->once()
-            ->andReturn([
+            ->andReturn(json_encode([
                     ['id' => 2, 'name' => 'Towel', 'price' => 5.0, 'quantity' => 2],
                     ['id' => 3, 'name' => 'Shampoo', 'price' => 4.0, 'quantity' => 1]
-            ]);
+            ]));
 
         $response = $this
             ->actingAs($this->user)

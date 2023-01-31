@@ -26,11 +26,17 @@ class ProcessShoppingCartTest extends TestCase
             ->once()
             ->with('sc:'.$this->user->id)
             ->andReturn(
-                [
-                    ['id' => 1, 'name' => 'Soap', 'price' => 2.0, 'quantity' => 15],
-                    ['id' => 3, 'name' => 'Shampoo', 'price' => 2.5, 'quantity' => 4]
-                ]
+                json_encode(
+                    [
+                        ['id' => 1, 'name' => 'Soap', 'price' => 2.0, 'quantity' => 15],
+                        ['id' => 3, 'name' => 'Shampoo', 'price' => 2.5, 'quantity' => 4]
+                    ]
+                )
             );
+        
+        Redis::shouldReceive('del')
+            ->once()
+            ->with('sc:'.$this->user->id);
 
 
         $response = $this

@@ -99,7 +99,7 @@ class ProductRepositoryTest extends TestCase
         
         self::$productRepository->delete($productId);
         
-        $this->assertDatabaseHas(
+        $this->assertDatabaseMissing(
             'products',
             [
                 'name' => 'Product deleted',

@@ -5,7 +5,6 @@ namespace Tests\Unit\Repositories\Redis;
 use App\Repositories\Interfaces\ShoppingCartRepositoryInterface;
 use App\Repositories\Redis\ShoppingCartRepository;
 use Illuminate\Support\Facades\Redis;
-use Tests\Mocks\RedisMock;
 use Tests\TestCase;
 
 class ShoppingCartRepositoryTest extends TestCase
@@ -32,7 +31,7 @@ class ShoppingCartRepositoryTest extends TestCase
 
         Redis::shouldReceive('set')
             ->once()
-            ->with('sc:99', $data);
+            ->with('sc:99', json_encode($data));
 
         $insertedKey = self::$shoppingCartRepository->insertOrUpdate($key, $data);
 
@@ -71,7 +70,7 @@ class ShoppingCartRepositoryTest extends TestCase
         Redis::shouldReceive('get')
             ->once()
             ->with('sc:77')
-            ->andReturn($data);
+            ->andReturn(json_encode($data));
 
 
         $result = self::$shoppingCartRepository->getByKey($key);

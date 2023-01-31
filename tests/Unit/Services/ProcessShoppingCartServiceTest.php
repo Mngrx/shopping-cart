@@ -50,6 +50,11 @@ class ProcessShoppingCartServiceTest extends TestCase
                 ]
             );
 
+        $this
+            ->mockShoppingCartService
+            ->shouldReceive('removeAllProducts')
+            ->once();
+
         Auth::shouldReceive('id')->andReturn(99);
 
         $result = $this->processShoppingCartService->checkout();
